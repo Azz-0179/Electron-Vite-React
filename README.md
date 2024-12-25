@@ -1,2 +1,3 @@
 # Electron-Vite-React
-一个使用vite+react的electron项目
+采用技术:
+vite@5 + react18 + electron31
