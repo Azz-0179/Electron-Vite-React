@@ -1,0 +1,4 @@
+provider: generic
+# 线上安装包地址
+url: http://localhost:85/update/
+updaterCacheDirName: muetool-updater

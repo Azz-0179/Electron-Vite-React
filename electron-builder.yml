@@ -1,0 +1,114 @@
+# 应用的ID,用于唯一标识应用
+appId: com.dehors
+
+# 产品名称,用于显示在安装程序和开始菜单等地方
+productName: muetool
+
+# 指定构建资源和输出目录
+directories:
+  # 构建资源目录,存放图标、背景等资源文件
+  buildResources: build
+
+# 指定要包含在应用程序包中的文件和文件夹
+files:
+  # 排除 .vscode 目录下的所有文件
+  - '!**/.vscode/*'
+  # 排除 src 目录下的所有文件
+  - '!src/*'
+  # 排除配置文件
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  # 排除环境变量文件和 npm 配置文件
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+
+# 指定从asar归档中解压的文件或文件夹
+asarUnpack:
+  # 解压 resources 目录下的所有内容
+  - resources/**
+
+# Windows 特定配置
+win:
+  # 指定生成的安装程序类型,这里使用 NSIS
+  target: nsis
+  # 是否对可执行文件进行签名和编辑
+  signAndEditExecutable: false
+  # 请求的执行级别，highestAvailable 使用最高可用权限,requireAdministrator 需要管理员权限
+  requestedExecutionLevel: requireAdministrator
+  # 可执行文件名称
+  executableName: muetool
+  # 图标
+  icon: resources/favicon.ico
+
+# NSIS 安装程序配置
+nsis:
+  # 安装程序的构建物名称,${name} 和 ${version} 是变量
+  artifactName: ${name}-${version}-setup.${ext}
+  # 创建桌面快捷方式的名称
+  shortcutName: ${productName}
+  # 卸载时显示的名称
+  uninstallDisplayName: ${productName}
+  # 是否总是创建桌面快捷方式
+  createDesktopShortcut: always
+  # 是否在开始菜单创建快捷方式
+  createStartMenuShortcut: true
+  # 是否是一键安装,设置为 false 以允许自定义安装路径
+  oneClick: false
+  # 是否为所有用户安装
+  perMachine: true
+  # 是否允许用户更改安装目录
+  allowToChangeInstallationDirectory: true
+  # 允许提升权限
+  allowElevation: true
+  # 安装图标
+  installerIcon: resources/favicon.ico
+  # 卸载图标
+  uninstallerIcon: resources/favicon.ico
+
+# macOS 特定配置
+mac:
+  # 继承的权限文件，用于MacOS的权限请求
+  entitlementsInherit: build/entitlements.mac.plist
+  # 扩展信息，用于App的权限请求
+  extendInfo:
+    - NSCameraUsageDescription: Application requests access to the device's camera.
+    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
+    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
+    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+  # 是否进行苹果官方的签名
+  notarize: false
+
+# DMG 安装程序配置（macOS）
+dmg:
+  # DMG文件的构建物名称
+  artifactName: ${name}-${version}.${ext}
+
+# Linux 特定配置
+linux:
+  # 指定生成的目标格式，AppImage、snap、deb
+  target:
+    - AppImage
+    - snap
+    - deb
+  # 维护者的邮箱，通常用于Linux软件包
+  maintainer: electronjs.org
+  # 应用的类别
+  category: Utility
+
+# AppImage 配置（Linux）
+appImage:
+  # AppImage文件的构建物名称
+  artifactName: ${name}-${version}.${ext}
+
+# 是否重新编译npm包
+npmRebuild: false
+
+# 发布配置
+publish:
+  # 发布提供者，generic为通用
+  provider: generic
+  # 发布地址
+  url: http://localhost:85/update/
+
+# Electron下载配置
+electronDownload:
+  mirror: https://npmmirror.com/mirrors/electron/
